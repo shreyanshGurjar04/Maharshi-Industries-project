@@ -1,0 +1,99 @@
+body{
+    background-color: rgb(19, 22, 27);
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: white;
+}
+.title{
+    margin-left: 310px;
+    font-size: 40px;
+    margin-top: -15px;
+    margin-bottom: -50px;
+}
+.Detect, .alert, .average{
+    margin-top: -4px;
+    margin-left: 45%;
+}
+
+.average{
+    margin-left: 110px;
+}
+
+.anchor{
+    margin-left: 400px;
+}
+h1{
+    color: black;
+}
+
+h4{
+    font-size: 20px;
+    margin-left: 80px;
+    margin-top: -40px;
+}
+.txt{
+    margin-top: 10px;
+}
+
+.av{
+    margin-left: 38px;
+}
+
+.box{
+    border-radius: 20px;
+    background-color: rgb(24, 27, 31);
+    width: 300px;
+    height: 100px;
+    margin: 20px;
+    border: white solid 1px;
+}
+.Body1{
+    margin-left:350px;
+    display: inline-flex;
+    font-size: 30px;
+}
+
+
+.LiveFeed{
+    width: 1000px;
+    height: 500px;
+    margin-left: 360px;
+    background-color: rgb(224, 224, 224);
+}
+
+.TotalDetection{
+
+}
+
+.Alerts{
+    
+}
+
+.Avg{
+
+}
+
+.feed{
+    margin-left: 0px;
+    margin-top: -50px;
+}
+
+.popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: red;
+  color: white;
+  padding: 15px 25px;
+  font-size: 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  animation: fadeInOut 4s ease forwards;
+  z-index: 1000;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-20px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}

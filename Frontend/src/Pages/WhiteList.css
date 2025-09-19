@@ -1,0 +1,41 @@
+.Body1 {
+  padding: 20px;
+}
+
+.detections-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns per row */
+  gap: 20px;
+}
+
+.detection-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  text-align: center;
+}
+
+.detection-img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.detection-video {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.plate-number {
+  font-size: 16px;
+  margin: 4px 0;
+  color: black;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #666;
+}
