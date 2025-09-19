@@ -11,7 +11,7 @@ The system detects and recognizes vehicle number plates from images or video str
 - Recognizes characters on number plates using OCR.
 - Can process directories of images automatically.
 - Generates reports of detected number plates.
-- Detecated Whitelist and Blacklist Section
+- Dedicated Whitelist and Blacklist Section
 - Visualization of Statistics
 - Preview video of capturing
 - Efficient Searching feature
@@ -31,7 +31,7 @@ The system detects and recognizes vehicle number plates from images or video str
 
 ---
 
-################## Installation and initialization of Server
+----------------------------------# Installation and initialization of Server
  
 1. ** Clone the repository **
 ```bash
@@ -45,13 +45,13 @@ cd ANPR_system
 
 ```
    
-3. ** Make Virtual Evvironment with following Script **
+3. ** Make Virtual Environment with following Script **
 
 ```bash
 python3 -m venv venv
 
 ```
-4. ** Select the virtual Machine **
+4. ** Activate the virtual environment **
 
 ```bash
 source venv/bin/activate (macos)
@@ -74,7 +74,7 @@ python3 manage.py runserver
 
 ```
 
-####################  Initialization of Frontend
+------------------------------------#  Initialization of Frontend
 
 1. ** Navigate to Frontend **
 
@@ -93,4 +93,7 @@ cd Frontend
     npm run dev
 ```
 
+Usage
+- Open the frontend in your browser.
+- Interact with the ANPR system; images/videos are processed by the backend and results displayed on the frontend.
 
