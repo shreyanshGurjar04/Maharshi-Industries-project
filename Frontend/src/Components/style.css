@@ -66,18 +66,20 @@
   color: #888;
 }
 
-.whitelisted, .video {
+.whitelisted,
+.video {
   margin-bottom: 10px;
   display: flex;
 }
 
-.videoplay{
+.videoplay {
   width: 40px;
   margin-top: 14px;
   height: 40px;
   margin-right: 8px;
 
 }
+
 .whitelist {
   width: 40px;
   margin-top: 7px;

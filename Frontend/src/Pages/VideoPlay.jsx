@@ -6,13 +6,12 @@ export default function VideoPlay() {
   const [detections, setDetections] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/detections/") // fetch all detections
+    fetch("http://127.0.0.1:8000/api/detections/") 
       .then((res) => res.json())
       .then((data) => setDetections(data))
       .catch((err) => console.error("Error fetching detections:", err));
   }, []);
 
-  // Filter detections that have videos
   const detectionsWithVideos = detections.filter(det => det.video_path);
 
   return (

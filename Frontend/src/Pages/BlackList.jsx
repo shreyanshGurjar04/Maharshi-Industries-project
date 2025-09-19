@@ -5,20 +5,20 @@ import React, { useState, useEffect } from 'react';
 
 export default function BlackList() {
   const [detections, setDetections] = useState([]);
-  
-    useEffect(() => {
-      fetch("http://127.0.0.1:8000/api/Blacklist/") 
-        .then((res) => res.json())
-        .then((data) => setDetections(data))
-        .catch((err) => console.error("Error fetching detections:", err));
-    }, []);
-  
 
-    const whiteListDetections = detections.filter((det) => det.blacklist);
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/Blacklist/")
+      .then((res) => res.json())
+      .then((data) => setDetections(data))
+      .catch((err) => console.error("Error fetching detections:", err));
+  }, []);
+
+
+  const whiteListDetections = detections.filter((det) => det.blacklist);
   return (
     <>
-        <Sidebar/>
-         <div className="title">
+      <Sidebar />
+      <div className="title">
         <h2>BlackList</h2>
       </div>
       <div className="Body1">
@@ -45,8 +45,8 @@ export default function BlackList() {
         )}
       </div>
 
-      
+
     </>
-    
+
   )
 }

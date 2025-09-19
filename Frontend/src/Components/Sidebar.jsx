@@ -11,52 +11,52 @@ import vid from '../assets/Play.png';
 import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  return (
-    <div className='sidebar'>
+    return (
+        <div className='sidebar'>
 
-        <div className='logo'>
-            <img className='lo' src={logo} alt="logo" />
-            <h3><b>ANPR System</b></h3>
+            <div className='logo'>
+                <img className='lo' src={logo} alt="logo" />
+                <h3><b>ANPR System</b></h3>
+            </div>
+
+            <div className='button-array'>
+
+                <div className='btn dashboard'>
+                    <img className='detection' src={dash} alt="dashboard" />
+                    <button onClick={() => navigate('/')}>Dashboard</button>
+                </div>
+
+                <div className='btn dashboard'>
+                    <img className='detection' src={analyst} alt="analytics" />
+                    <button onClick={() => navigate('/analytics')}>Analytics</button>
+                </div>
+
+                <div className='btn detect'>
+                    <img className='de' src={detect} alt="detection" />
+                    <button onClick={() => navigate('/detection')}>Detections</button>
+                </div>
+
+                <div className='btn blacklisted'>
+                    <img className='blacklist' src={blackli} alt="blacklist" />
+                    <button onClick={() => navigate('/blacklist')}>BlackList</button>
+                </div>
+
+                <div className='btn whitelisted'>
+                    <img className='whitelist' src={whiteli} alt="whitelist" />
+                    <button onClick={() => navigate('/whitelist')}>WhiteList</button>
+                </div>
+
+                <div className='btn video'>
+                    <img className='videoplay' src={vid} alt="whitelist" />
+                    <button onClick={() => navigate('/videoplayback')}>Video Playback</button>
+                </div>
+
+            </div>
+
         </div>
-
-        <div className='button-array'>
-
-            <div className='btn dashboard'>
-                <img className='detection' src={dash} alt="dashboard" />
-                <button onClick={() => navigate('/')}>Dashboard</button>
-            </div>
-
-            <div className='btn dashboard'>
-                <img className='detection' src={analyst} alt="analytics" />
-                <button onClick={() => navigate('/analytics')}>Analytics</button>
-            </div>
-
-            <div className='btn detect'>
-                <img className='de' src={detect} alt="detection" />
-                <button onClick={() => navigate('/detection')}>Detections</button>
-            </div>
-
-            <div className='btn blacklisted'>
-                <img className='blacklist' src={blackli} alt="blacklist" />
-                <button onClick={() => navigate('/blacklist')}>BlackList</button>
-            </div>
-
-            <div className='btn whitelisted'>
-                <img className='whitelist' src={whiteli} alt="whitelist" />
-                <button onClick={() => navigate('/whitelist')}>WhiteList</button>
-            </div>
-
-            <div className='btn video'>
-                <img className='videoplay' src={vid} alt="whitelist" />
-                <button onClick={() => navigate('/videoplayback')}>Video Playback</button>
-            </div>
-                
-        </div>
-
-    </div>
-  )
+    )
 }
 
 export default Sidebar

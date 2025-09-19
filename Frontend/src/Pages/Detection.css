@@ -1,6 +1,6 @@
 .Body1 {
   padding: 20px;
-  
+
 }
 
 .detections-grid {
@@ -74,11 +74,12 @@
   border-radius: 50%;
 }
 
-input:checked + .slider {
-  background-color: #ff4d4d; /* red for blacklist */
+input:checked+.slider {
+  background-color: #ff4d4d;
+  /* red for blacklist */
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
   transform: translateX(26px);
 }
 
@@ -89,17 +90,17 @@ input:checked + .slider:before {
   color: black;
 }
 
-.toggle-btn{
+.toggle-btn {
   display: inline-flex;
 }
 
-.delete-btn{
+.delete-btn {
   margin-left: 40px;
   height: 40px;
 }
 
-.toggle{
-  display:flex;
+.toggle {
+  display: flex;
 }
 
 .delete-btn {
@@ -118,20 +119,23 @@ input:checked + .slider:before {
   background-color: #c0392b;
 }
 
-.filters{
+.filters {
   margin-left: 450px;
   margin-top: 90px;
   margin-bottom: 10px;
 }
 
-input, select,.btnn{
+input,
+select,
+.btnn {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 15px;
   margin-left: 16px;
   height: 30px;
   border-radius: 10px;
 }
-.btnn{
+
+.btnn {
   width: 100px;
   font-size: 15px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;

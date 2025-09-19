@@ -6,13 +6,12 @@ export default function WhiteList() {
   const [detections, setDetections] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/Whitelist/") 
+    fetch("http://127.0.0.1:8000/api/Whitelist/")
       .then((res) => res.json())
       .then((data) => setDetections(data))
       .catch((err) => console.error("Error fetching detections:", err));
   }, []);
 
-  // ✅ Filter only whitelist detections (blacklist = false)
   const whiteListDetections = detections.filter((det) => !det.blacklist);
 
   return (

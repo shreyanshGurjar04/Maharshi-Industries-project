@@ -24,37 +24,6 @@ export default function Detection() {
       .catch((err) => console.error("Error fetching detections:", err));
   };
 
-  // 🔹 Updated Export Function (download file directly)
-  const exportReport = async (format) => {
-    const queryObj = { ...filters, format };
-    Object.keys(queryObj).forEach(
-      (key) => queryObj[key] === "" && delete queryObj[key]
-    );
-
-    const query = new URLSearchParams(queryObj).toString();
-    const url = `http://127.0.0.1:8000/api/export-detections/?${query}`;
-
-
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Failed to export report");
-
-      const blob = await response.blob();
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-
-      // dynamic filename (plate or "all")
-      const plate = filters.plate || "all";
-      link.download = `detections_${plate}.${format}`;
-      link.click();
-
-      // cleanup
-      window.URL.revokeObjectURL(link.href);
-    } catch (error) {
-      console.error("Export error:", error);
-    }
-  };
-
   useEffect(() => {
     fetchDetections();
   }, []);
@@ -98,52 +67,50 @@ export default function Detection() {
   };
 
   const handlePDF = () => {
-  fetch('http://127.0.0.1:8000/api/Report-pdf/', {
-    method: "GET"
-  })
-    .then(res => {
-      if (!res.ok) throw new Error("Failed to fetch PDF");
-      return res.blob(); // get as blob
+    fetch('http://127.0.0.1:8000/api/Report-pdf/', {
+      method: "GET"
     })
-    .then(blob => {
-      const url = window.URL.createObjectURL(new Blob([blob]));
-      const link = document.createElement('a');
-      link.href = url;
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch PDF");
+        return res.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement('a');
+        link.href = url;
 
-      // optional: dynamic filename with timestamp
-      const timestamp = new Date().toISOString().slice(0,19).replace(/:/g,"-");
-      link.setAttribute('download', `detections_${timestamp}.pdf`);
-      
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
-    })
-    .catch(err => console.error("Error downloading PDF:", err));
-};
+        const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, "-");
+        link.setAttribute('download', `detections_${timestamp}.pdf`);
 
-const handleCSV = () => {
-  fetch('http://127.0.0.1:8000/api/Report-csv/', {
-    method: "GET"
-  })
-    .then(res => {
-      if (!res.ok) throw new Error("Failed to fetch CSV");
-      return res.blob(); 
-    })
-    .then(blob => {
-      const url = window.URL.createObjectURL(new Blob([blob]));
-      const link = document.createElement('a');
-      link.href = url;
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+      })
+      .catch(err => console.error("Error downloading PDF:", err));
+  };
 
-      // dynamic filename with timestamp
-      const timestamp = new Date().toISOString().slice(0,19).replace(/:/g,"-");
-      link.setAttribute('download', `detections_${timestamp}.csv`);
-      
-      document.body.appendChild(link);
-      link.click();
-      link.parentNode.removeChild(link);
+  const handleCSV = () => {
+    fetch('http://127.0.0.1:8000/api/Report-csv/', {
+      method: "GET"
     })
-    .catch(err => console.error("Error downloading CSV:", err));
-};
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch CSV");
+        return res.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement('a');
+        link.href = url;
+
+        const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, "-");
+        link.setAttribute('download', `detections_${timestamp}.csv`);
+
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode.removeChild(link);
+      })
+      .catch(err => console.error("Error downloading CSV:", err));
+  };
 
   return (
     <>
@@ -162,7 +129,7 @@ const handleCSV = () => {
         />
 
         <input
-          
+
           type="date"
           name="start_date"
           value={filters.start_date}
@@ -185,9 +152,9 @@ const handleCSV = () => {
           <option value="false">Whitelist</option>
         </select>
 
-        <button className="btnn"onClick={fetchSearch}>Search</button>
-        <button className="btnn"onClick={handlePDF}>Export CSV</button>
-        <button className="btnn"onClick={handleCSV}>Export PDF</button>
+        <button className="btnn" onClick={fetchSearch}>Search</button>
+        <button className="btnn" onClick={handlePDF}>Export CSV</button>
+        <button className="btnn" onClick={handleCSV}>Export PDF</button>
       </div>
 
       <div className="Body1">

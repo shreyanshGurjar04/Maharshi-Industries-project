@@ -53,6 +53,7 @@ export default function Analytics() {
       </div>
 
       <div className="mainBody">
+        
         {/* Stats Cards */}
         <div className="statistics">
           <div className="stat-card">

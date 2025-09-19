@@ -18,6 +18,13 @@ import threading
 import time
 import torch
 from rest_framework.decorators import api_view
+from django.http import HttpResponse
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from io import BytesIO
+import csv
+from datetime import datetime
 
 # ==================== ViewSets ====================
 
@@ -65,8 +72,6 @@ class whitelist(APIView):
             # Use 500 for server errors
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-        
 # ==================== BlackList Page ====================
 
 class Blacklist(APIView):
@@ -150,10 +155,8 @@ else:
     device = torch.device("cpu")
     print("Using CPU")
 
-# Load YOLO model on GPU
-model = YOLO("best2.pt").to(device)
+model = YOLO("best2.pt").to(device) #latest model best2.pt
 
-# Load EasyOCR with GPU (uses MPS if available)
 reader = easyocr.Reader(['en'], gpu=torch.backends.mps.is_available())
  
 API_URL = "http://127.0.0.1:8000/api/infoEntry/"
@@ -171,14 +174,13 @@ def preprocess_plate(plate_img):
     if plate_img is None or plate_img.size == 0:
         return plate_img
     try:
-        # Ensure plate_img is in BGR
         if len(plate_img.shape) == 3 and plate_img.shape[2] == 3:
             gray = cv2.cvtColor(plate_img, cv2.COLOR_BGR2GRAY)
         else:
             gray = plate_img
         gray = cv2.equalizeHist(gray)
         _, thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        # Resize to 2x for better OCR recognition
+
         h, w = thresh.shape
         resized = cv2.resize(thresh, (w * 2, h * 2), interpolation=cv2.INTER_LINEAR)
         return resized
@@ -290,8 +292,6 @@ def generate_frames(camera_index=0):
                     except Exception as e:
                         print(f"[BOX ERROR] {e}")
                         continue
-
-            # If we detected a plate in this frame, update trackers
             if plate_detected_this_frame and detected_plate_in_frame:
                 if detected_plate_in_frame != last_plate:
                     last_plate = detected_plate_in_frame
@@ -310,7 +310,7 @@ def generate_frames(camera_index=0):
                 color = (0, 0, 255) if is_blacklisted else (0, 255, 0)  # Red if blacklist else Green
 
                 overlay = frame.copy()
-                cv2.rectangle(overlay, (40, 10), (400, 80), (0, 0, 0), -1)  # black rectangle
+                cv2.rectangle(overlay, (40, 10), (400, 80), (0, 0, 0), -1)  
                 frame = cv2.addWeighted(overlay, 0.6, frame, 0.4, 0)  
 
                 cv2.putText(frame, f"Plate: {last_plate}",
@@ -345,7 +345,6 @@ def generate_frames(camera_index=0):
                 clear_img = best_plate_frame[y1:y2, x1:x2].copy()
 
                 threading.Thread(target=save_plate, args=(last_plate, ts, clear_img, video_buffer.copy()), daemon=True).start()
-            # Reset buffer and trackers
             video_buffer.clear()
             best_plate_frame = None
             best_plate_bbox = None
@@ -369,17 +368,7 @@ def generate_frames(camera_index=0):
 def video_feed(request, camera_index=0):
     return StreamingHttpResponse(generate_frames(camera_index), content_type='multipart/x-mixed-replace; boundary=frame')
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.http import HttpResponse
-from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-from io import BytesIO
-import csv
-from datetime import datetime
-from .models import Detection
+# ==================== PDF API ====================
 
 class ExportDetectionsPDF(APIView):
 
@@ -419,13 +408,11 @@ class ExportDetectionsPDF(APIView):
                     ])
                 return response
 
-            # --- PDF Export ---
             elif export_format == "pdf":
                 buffer = BytesIO()
                 doc = SimpleDocTemplate(buffer, pagesize=letter)
                 elements = []
 
-                # Table headers
                 data = [["Plate", "Timestamp", "Camera", "Blacklist", "Image Path", "Video Path"]]
                 for det in queryset:
                     data.append([
@@ -437,7 +424,6 @@ class ExportDetectionsPDF(APIView):
                         det.video_path
                     ])
 
-                # Table styling
                 table = Table(data, repeatRows=1)
                 style = TableStyle([
                     ("BACKGROUND", (0,0), (-1,0), colors.grey),
@@ -450,11 +436,9 @@ class ExportDetectionsPDF(APIView):
                 table.setStyle(style)
                 elements.append(table)
 
-                # Build PDF
                 doc.build(elements)
                 buffer.seek(0)
 
-                # Dynamic filename with timestamp
                 timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
                 filename = f"detections_{timestamp}.pdf"
 
@@ -468,6 +452,7 @@ class ExportDetectionsPDF(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# ==================== CSV API ====================
 
 class ExportDetectionsCSV(APIView):
     def get(self, request, format=None):

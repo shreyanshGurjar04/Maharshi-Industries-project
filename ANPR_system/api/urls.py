@@ -21,5 +21,4 @@ urlpatterns = [
     path("Report-csv/", ExportDetectionsCSV.as_view(), name="CSV"),
     path("search-detections/", SearchDetections.as_view(), name="search-detections"),
 
-
 ]
