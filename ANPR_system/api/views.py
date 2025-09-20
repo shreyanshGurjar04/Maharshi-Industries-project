@@ -519,6 +519,8 @@ class ExportDetectionsCSV(APIView):
 
 # ==================== Search API ====================
 
+from django.db.models import Q
+
 class SearchDetections(APIView):
     def get(self, request):
         try:
@@ -530,10 +532,14 @@ class SearchDetections(APIView):
             blacklist = request.query_params.get("blacklist")
 
             if plate:
-                queryset = queryset.filter(no_plate__icontains=plate)
+                q = Q()
+                for char in plate:
+                    q |= Q(no_plate__icontains=char)
+                queryset = queryset.filter(q)
+
             if start_date and end_date:
                 queryset = queryset.filter(timestamp__range=[start_date, end_date])
-            if blacklist is not None:
+            if blacklist is not None and blacklist != "":
                 queryset = queryset.filter(blacklist=(blacklist.lower() == "true"))
 
             serializer = DetectionSerializer(queryset, many=True, context={"request": request})

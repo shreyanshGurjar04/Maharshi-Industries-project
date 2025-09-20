@@ -153,8 +153,8 @@ export default function Detection() {
         </select>
 
         <button className="btnn" onClick={fetchSearch}>Search</button>
-        <button className="btnn" onClick={handlePDF}>Export CSV</button>
-        <button className="btnn" onClick={handleCSV}>Export PDF</button>
+        <button className="btnn" onClick={handleCSV}>Export CSV</button>
+        <button className="btnn" onClick={handlePDF}>Export PDF</button>
       </div>
 
       <div className="Body1">
